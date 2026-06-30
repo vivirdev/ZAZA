@@ -66,6 +66,44 @@
         box-shadow: 0 0 0 1px rgba(54, 34, 42, 0.08);
       }
 
+      .site-footer {
+        width: min(100%, 1920px);
+        margin-inline: auto;
+        direction: rtl;
+        background: rgba(230, 222, 194, 0.96);
+        border-top: 1px solid rgba(54, 34, 42, 0.22);
+        color: var(--ink);
+        font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+        line-height: 1.4;
+      }
+
+      .site-footer__links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.4rem 1rem;
+        flex-wrap: wrap;
+        padding: 12px 16px 14px;
+      }
+
+      .site-footer a {
+        color: inherit;
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.22em;
+      }
+
+      .site-footer a:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+
+      .site-footer__separator {
+        opacity: 0.55;
+      }
+
       .festival-stage {
         position: relative;
         width: 100%;
@@ -354,6 +392,12 @@
           box-shadow: none;
         }
 
+        .site-footer {
+          width: 100%;
+          background: #e6dec2;
+          font-size: 0.82rem;
+        }
+
         .festival-stage {
           aspect-ratio: 427 / 3738;
           background: #2271AE;
@@ -542,8 +586,21 @@
 
         <h2 id="zaza-creators-text">מידע נגיש</h2>
         <p>הווידאו באזור ההירו הוא וידאו דקורטיבי ללא קול. במצב עצירת אנימציה או העדפת הפחתת תנועה, הווידאו נעצר כדי לצמצם הסחות דעת.</p>
+
+        <h2>קישורים משפטיים</h2>
+        <ul>
+          <li><a href="https://www.oldjaffa.co.il/%d7%94%d7%a6%d7%94%d7%a8%d7%aa-%d7%a0%d7%92%d7%99%d7%a9%d7%95%d7%aa/" target="_blank" rel="noopener noreferrer">הצהרת נגישות</a></li>
+          <li><a href="https://www.oldjaffa.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%94%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a></li>
+        </ul>
       </section>
     </main>
+    <footer class="site-footer" aria-label="קישורים משפטיים">
+      <nav class="site-footer__links" aria-label="קישורים משפטיים">
+        <a href="https://www.oldjaffa.co.il/%d7%94%d7%a6%d7%94%d7%a8%d7%aa-%d7%a0%d7%92%d7%99%d7%a9%d7%95%d7%aa/" target="_blank" rel="noopener noreferrer" aria-label="הצהרת נגישות, נפתח בחלון חדש">הצהרת נגישות</a>
+        <span class="site-footer__separator" aria-hidden="true">|</span>
+        <a href="https://www.oldjaffa.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%94%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener noreferrer" aria-label="מדיניות הפרטיות, נפתח בחלון חדש">מדיניות הפרטיות</a>
+      </nav>
+    </footer>
     <script>
       const heroVideo = document.querySelector(".hero-video-layer video");
       const heroVideoCanvas = document.querySelector(".hero-video-canvas");
