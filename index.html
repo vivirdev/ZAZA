@@ -87,14 +87,24 @@
         pointer-events: none;
       }
 
+      .hero-video-canvas,
       .hero-video-layer video {
-        position: relative;
+        position: absolute;
+        inset: 0;
         z-index: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
         display: none;
         pointer-events: none;
+      }
+
+      .hero-video-canvas {
+        object-fit: cover;
+      }
+
+      .hero-video-layer video {
+        object-fit: cover;
+        opacity: 0;
       }
 
       .hero-video-layer video::-webkit-media-controls,
@@ -234,22 +244,22 @@
         }
 
         .festival-stage {
-          aspect-ratio: 429 / 3724;
+          aspect-ratio: 429 / 3738;
         }
 
         .hero-video-layer {
-          z-index: 2;
-          height: 11.546724%;
-          opacity: 0.42;
-          mix-blend-mode: multiply;
+          z-index: 0;
+          height: 11.503478%;
+          opacity: 1;
+          mix-blend-mode: normal;
           background: transparent;
           pointer-events: none;
         }
 
         .hero-video-tint {
           display: block;
-          z-index: 3;
-          height: 11.546724%;
+          z-index: 0;
+          height: 11.503478%;
           background: rgba(54, 34, 42, 0.1);
           mix-blend-mode: multiply;
         }
@@ -261,6 +271,10 @@
         .hero-video-layer video {
           display: block;
           background: transparent;
+        }
+
+        .hero-video-canvas {
+          display: block;
         }
 
         .artwork-desktop {
@@ -334,6 +348,7 @@
     <main class="page-shell" aria-label="ZAZA">
       <section class="festival-stage" id="top">
         <div class="hero-video-layer" aria-hidden="true">
+          <canvas class="hero-video-canvas"></canvas>
           <video muted autoplay loop playsinline webkit-playsinline preload="metadata" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture disableremoteplayback tabindex="-1">
             <source src="assets/meshotetim-jaffa-02-hq.mp4" type="video/mp4" media="(max-width: 720px)">
           </video>
@@ -348,7 +363,7 @@
         >
         <img
           class="artwork artwork-mobile"
-          src="assets/festival-2026-mobile-artwork.svg?v=12"
+          src="assets/festival-2026-mobile-artwork.svg?v=14"
           alt="Festival 2026"
           draggable="false"
         >
@@ -395,10 +410,47 @@
     </main>
     <script>
       const heroVideo = document.querySelector(".hero-video-layer video");
+      const heroVideoCanvas = document.querySelector(".hero-video-canvas");
       if (heroVideo) {
         heroVideo.muted = true;
         heroVideo.defaultMuted = true;
         heroVideo.playsInline = true;
+
+        const drawHeroVideo = () => {
+          if (!heroVideoCanvas || !heroVideo.videoWidth || !heroVideo.videoHeight) {
+            requestAnimationFrame(drawHeroVideo);
+            return;
+          }
+
+          const bounds = heroVideoCanvas.getBoundingClientRect();
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          const width = Math.max(1, Math.round(bounds.width * ratio));
+          const height = Math.max(1, Math.round(bounds.height * ratio));
+
+          if (heroVideoCanvas.width !== width || heroVideoCanvas.height !== height) {
+            heroVideoCanvas.width = width;
+            heroVideoCanvas.height = height;
+          }
+
+          const context = heroVideoCanvas.getContext("2d");
+          const videoRatio = heroVideo.videoWidth / heroVideo.videoHeight;
+          const canvasRatio = width / height;
+          let drawWidth = width;
+          let drawHeight = height;
+          let offsetX = 0;
+          let offsetY = 0;
+
+          if (videoRatio > canvasRatio) {
+            drawWidth = height * videoRatio;
+            offsetX = (width - drawWidth) / 2;
+          } else {
+            drawHeight = width / videoRatio;
+            offsetY = (height - drawHeight) / 2;
+          }
+
+          context.drawImage(heroVideo, offsetX, offsetY, drawWidth, drawHeight);
+          requestAnimationFrame(drawHeroVideo);
+        };
 
         const playHeroVideo = () => {
           if (window.matchMedia("(max-width: 720px)").matches) {
@@ -407,6 +459,7 @@
         };
 
         playHeroVideo();
+        drawHeroVideo();
         heroVideo.addEventListener("loadeddata", playHeroVideo, { once: true });
         window.addEventListener("touchstart", playHeroVideo, { once: true, passive: true });
       }
