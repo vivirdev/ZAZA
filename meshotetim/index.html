@@ -201,28 +201,6 @@
         border: 0;
       }
 
-      .accessible-content:focus,
-      .accessible-content:focus-within,
-      .accessible-content:target,
-      html[data-a11y-readable="true"] .accessible-content,
-      body[data-a11y-readable="true"] .accessible-content {
-        position: relative;
-        z-index: 5;
-        width: min(100% - 32px, 960px);
-        height: auto;
-        margin: 24px auto;
-        clip: auto;
-        clip-path: none;
-        overflow: visible;
-        border: 3px solid #111;
-        border-radius: 6px;
-        padding: clamp(20px, 4vw, 42px);
-        background: #fff;
-        color: #111;
-        line-height: 1.65;
-        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
-      }
-
       .accessible-content h1,
       .accessible-content h2,
       .accessible-content p,
@@ -277,9 +255,9 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#accessible-content">מעבר לתוכן נגיש</a>
+    <a class="skip-link" href="#top">מעבר לתוכן המרכזי</a>
     <main class="page-shell" aria-labelledby="meshotetim-title">
-      <section class="artwork-stage">
+      <section class="artwork-stage" id="top">
         <img
           class="artwork"
           src="../assets/festival-2026-program-artwork.svg?v=3"
@@ -345,6 +323,11 @@
     </footer>
 
     <script>
+      if (window.location.hash === "#accessible-content") {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        window.scrollTo(0, 0);
+      }
+
       const syncExternalAccessibilityMode = () => {
         const roots = [document.documentElement, document.body].filter(Boolean);
         const source = roots.map((element) => {
@@ -378,9 +361,8 @@
       };
 
       const syncAccessibleContentTabStops = () => {
-        const isReadable = document.documentElement.dataset.a11yReadable === "true" || window.location.hash === "#accessible-content";
         document.querySelectorAll(".accessible-content a").forEach((link) => {
-          link.tabIndex = isReadable ? 0 : -1;
+          link.tabIndex = -1;
         });
       };
 

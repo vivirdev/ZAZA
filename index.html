@@ -28,11 +28,7 @@
         min-height: 100vh;
         margin: 0;
         direction: ltr;
-        background:
-          linear-gradient(90deg, rgba(54, 34, 42, 0.05) 1px, transparent 1px),
-          linear-gradient(0deg, rgba(54, 34, 42, 0.04) 1px, transparent 1px),
-          var(--paper);
-        background-size: 32px 32px;
+        background: var(--paper);
         font-family: "Arial Hebrew", "Noto Sans Hebrew", Arial, sans-serif;
         color: var(--ink);
       }
@@ -335,28 +331,6 @@
         border: 0;
       }
 
-      .accessible-content:focus,
-      .accessible-content:focus-within,
-      .accessible-content:target,
-      html[data-a11y-readable="true"] .accessible-content,
-      body[data-a11y-readable="true"] .accessible-content {
-        position: relative;
-        z-index: 5;
-        width: min(100% - 32px, 960px);
-        height: auto;
-        margin: 24px auto;
-        clip: auto;
-        clip-path: none;
-        overflow: visible;
-        border: 3px solid #111;
-        border-radius: 6px;
-        padding: clamp(20px, 4vw, 42px);
-        background: #fff;
-        color: #111;
-        line-height: 1.65;
-        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
-      }
-
       .accessible-content h1,
       .accessible-content h2,
       .accessible-content p,
@@ -385,7 +359,6 @@
 
         body {
           background: #2271AE;
-          background-size: 22px 22px;
         }
 
         .page-shell {
@@ -501,7 +474,7 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#accessible-content">מעבר לתוכן נגיש</a>
+    <a class="skip-link" href="#top">מעבר לתוכן המרכזי</a>
     <main class="page-shell" aria-labelledby="zaza-title">
       <section class="festival-stage" id="top">
         <div class="hero-video-layer" aria-hidden="true">
@@ -604,6 +577,11 @@
     <script>
       const heroVideo = document.querySelector(".hero-video-layer video");
       const heroVideoCanvas = document.querySelector(".hero-video-canvas");
+      if (window.location.hash === "#accessible-content") {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        window.scrollTo(0, 0);
+      }
+
       if (heroVideo) {
         heroVideo.muted = true;
         heroVideo.defaultMuted = true;
@@ -697,9 +675,8 @@
       };
 
       const syncAccessibleContentTabStops = () => {
-        const isReadable = document.documentElement.dataset.a11yReadable === "true" || window.location.hash === "#accessible-content";
         document.querySelectorAll(".accessible-content a").forEach((link) => {
-          link.tabIndex = isReadable ? 0 : -1;
+          link.tabIndex = -1;
         });
       };
 
