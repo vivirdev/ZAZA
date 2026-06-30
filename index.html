@@ -94,6 +94,17 @@
         height: 100%;
         object-fit: cover;
         display: none;
+        pointer-events: none;
+      }
+
+      .hero-video-layer video::-webkit-media-controls,
+      .hero-video-layer video::-webkit-media-controls-panel,
+      .hero-video-layer video::-webkit-media-controls-play-button,
+      .hero-video-layer video::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        -webkit-appearance: none;
       }
 
       .artwork {
@@ -223,16 +234,24 @@
         }
 
         .festival-stage {
-          aspect-ratio: 481 / 3724;
+          aspect-ratio: 429 / 3724;
         }
 
         .hero-video-layer {
-          height: 13.426423%;
+          z-index: 2;
+          height: 11.546724%;
+          opacity: 0.42;
+          mix-blend-mode: multiply;
+          background: transparent;
+          pointer-events: none;
         }
 
         .hero-video-tint {
           display: block;
-          height: 13.426423%;
+          z-index: 3;
+          height: 11.546724%;
+          background: rgba(54, 34, 42, 0.1);
+          mix-blend-mode: multiply;
         }
 
         .hero-video-layer::after {
@@ -241,6 +260,7 @@
 
         .hero-video-layer video {
           display: block;
+          background: transparent;
         }
 
         .artwork-desktop {
@@ -249,50 +269,50 @@
 
         .artwork-mobile {
           display: block;
-          left: -3px;
-          width: calc(100% + 6px);
+          left: 0;
+          width: 100%;
         }
 
         .hero-cta {
-          left: 41.923077%;
-          top: 8.131832%;
-          width: 26.794872%;
-          height: 0.728718%;
+          left: 34.871795%;
+          top: 8.138848%;
+          width: 30.000000%;
+          height: 0.723781%;
         }
 
         .program-primary {
-          left: 72.051282%;
-          top: 42.215966%;
-          width: 15.128205%;
-          height: 0.662471%;
+          left: 68.717949%;
+          top: 42.215657%;
+          width: 16.923077%;
+          height: 0.664697%;
         }
 
         .program-secondary {
-          left: 51.538462%;
-          top: 42.215966%;
-          width: 18.974359%;
-          height: 0.662471%;
+          left: 45.641026%;
+          top: 42.215657%;
+          width: 21.282051%;
+          height: 0.664697%;
         }
 
         .card-action-1 {
-          left: 77.179487%;
-          top: 50.794965%;
-          width: 11.153846%;
-          height: 0.679033%;
+          left: 74.358974%;
+          top: 50.797637%;
+          width: 12.564103%;
+          height: 0.664697%;
         }
 
         .card-action-2 {
-          left: 77.179487%;
-          top: 60.980457%;
-          width: 11.153846%;
-          height: 0.662471%;
+          left: 74.358974%;
+          top: 60.974889%;
+          width: 12.564103%;
+          height: 0.679468%;
         }
 
         .card-action-3 {
-          left: 77.179487%;
-          top: 69.675389%;
-          width: 11.153846%;
-          height: 0.662471%;
+          left: 74.358974%;
+          top: 69.675037%;
+          width: 12.564103%;
+          height: 0.664697%;
         }
 
         #creators {
@@ -314,7 +334,7 @@
     <main class="page-shell" aria-label="ZAZA">
       <section class="festival-stage" id="top">
         <div class="hero-video-layer" aria-hidden="true">
-          <video muted autoplay loop playsinline preload="metadata">
+          <video muted autoplay loop playsinline webkit-playsinline preload="metadata" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture disableremoteplayback tabindex="-1">
             <source src="assets/meshotetim-jaffa-02-hq.mp4" type="video/mp4" media="(max-width: 720px)">
           </video>
         </div>
@@ -328,7 +348,7 @@
         >
         <img
           class="artwork artwork-mobile"
-          src="assets/festival-2026-mobile-artwork.svg?v=11"
+          src="assets/festival-2026-mobile-artwork.svg?v=12"
           alt="Festival 2026"
           draggable="false"
         >
@@ -374,6 +394,23 @@
       </section>
     </main>
     <script>
+      const heroVideo = document.querySelector(".hero-video-layer video");
+      if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.defaultMuted = true;
+        heroVideo.playsInline = true;
+
+        const playHeroVideo = () => {
+          if (window.matchMedia("(max-width: 720px)").matches) {
+            heroVideo.play().catch(() => {});
+          }
+        };
+
+        playHeroVideo();
+        heroVideo.addEventListener("loadeddata", playHeroVideo, { once: true });
+        window.addEventListener("touchstart", playHeroVideo, { once: true, passive: true });
+      }
+
       document.querySelectorAll(".button-hotspot").forEach((button) => {
         button.addEventListener("click", () => {
           const action = button.dataset.action;
