@@ -18,6 +18,11 @@
 
       html {
         background: var(--paper);
+        scroll-behavior: smooth;
+      }
+
+      html[data-a11y-reduced-motion="true"] {
+        scroll-behavior: auto;
       }
 
       body {
@@ -26,6 +31,27 @@
         background: var(--paper);
         color: var(--ink);
         font-family: "Arial Hebrew", "Noto Sans Hebrew", Arial, sans-serif;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 10000;
+        direction: rtl;
+        transform: translateY(-160%);
+        border: 3px solid #111;
+        border-radius: 4px;
+        padding: 12px 16px;
+        background: #fff;
+        color: #111;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
       }
 
       .page-shell {
@@ -95,10 +121,89 @@
         animation: button-pulse 420ms ease;
       }
 
+      html[data-a11y-links="true"] .button-hotspot,
+      body[data-a11y-links="true"] .button-hotspot {
+        background: rgba(253, 186, 18, 0.2);
+        box-shadow: inset 0 0 0 max(3px, 0.16vw) #111;
+      }
+
+      html[data-a11y-contrast="true"] .artwork,
+      body[data-a11y-contrast="true"] .artwork {
+        filter: contrast(1.22) saturate(0.88);
+      }
+
+      html[data-a11y-monochrome="true"] .artwork,
+      body[data-a11y-monochrome="true"] .artwork {
+        filter: grayscale(1) contrast(1.18);
+      }
+
+      html[data-a11y-reduced-motion="true"] *,
+      body[data-a11y-reduced-motion="true"] * {
+        animation: none !important;
+        transition: none !important;
+      }
+
       @keyframes button-pulse {
         0% { box-shadow: inset 0 0 0 0 rgba(54, 34, 42, 0); }
         45% { box-shadow: inset 0 0 0 999px rgba(54, 34, 42, 0.12); }
         100% { box-shadow: inset 0 0 0 0 rgba(54, 34, 42, 0); }
+      }
+
+      .accessible-content {
+        position: absolute;
+        direction: rtl;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        white-space: normal;
+        border: 0;
+      }
+
+      .accessible-content:focus,
+      .accessible-content:focus-within,
+      .accessible-content:target,
+      html[data-a11y-readable="true"] .accessible-content,
+      body[data-a11y-readable="true"] .accessible-content {
+        position: relative;
+        z-index: 5;
+        width: min(100% - 32px, 960px);
+        height: auto;
+        margin: 24px auto;
+        clip: auto;
+        clip-path: none;
+        overflow: visible;
+        border: 3px solid #111;
+        border-radius: 6px;
+        padding: clamp(20px, 4vw, 42px);
+        background: #fff;
+        color: #111;
+        line-height: 1.65;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+      }
+
+      .accessible-content h1,
+      .accessible-content h2,
+      .accessible-content p,
+      .accessible-content ul {
+        margin-block: 0 1rem;
+      }
+
+      .accessible-content h1 {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+      }
+
+      .accessible-content h2 {
+        font-size: clamp(1.25rem, 3vw, 2rem);
+        margin-block-start: 1.4rem;
+      }
+
+      .accessible-content a {
+        color: #005eb8;
+        font-weight: 700;
       }
 
       @media (max-width: 720px) {
@@ -128,18 +233,21 @@
     </style>
   </head>
   <body>
-    <main class="page-shell" aria-label="Festival 2026">
+    <a class="skip-link" href="#accessible-content">מעבר לתוכן נגיש</a>
+    <main class="page-shell" aria-labelledby="meshotetim-title">
       <section class="artwork-stage">
         <img
           class="artwork"
           src="../assets/festival-2026-program-artwork.svg?v=3"
-          alt="Festival 2026 program"
+          alt=""
+          aria-hidden="true"
           draggable="false"
         >
         <img
           class="artwork artwork-mobile"
           src="../assets/festival-2026-program-mobile-artwork.svg?v=3"
-          alt="Festival 2026 program"
+          alt=""
+          aria-hidden="true"
           draggable="false"
         >
 
@@ -160,9 +268,70 @@
         <a class="button-hotspot mobile-hotspot" href="tel:0546617771" aria-label="להתקשר 054-6617771" style="left:61.282051%;top:58.259981%;width:25.897436%;height:0.330085%;"></a>
         <a class="button-hotspot mobile-hotspot" href="../zaza/" aria-label="לעמוד ZAZA" style="left:38.333333%;top:97.563659%;width:23.333333%;height:0.385099%;"></a>
       </section>
+      <section class="accessible-content" id="accessible-content" tabindex="-1" aria-labelledby="meshotetim-title">
+        <h1 id="meshotetim-title">משוטטים - פסטיבל 2026</h1>
+        <p>עמוד זה מוצג בעיצוב גרפי מבוסס SVG. המידע והפעולות המרכזיות מופיעים כאן גם כטקסט HTML נגיש עבור קוראי מסך, ניווט מקלדת ותוספי נגישות חיצוניים.</p>
+
+        <h2>טלפונים להתקשרות</h2>
+        <ul>
+          <li><a href="tel:036502938">03-6502938</a></li>
+          <li><a href="tel:052521222">052-521222</a></li>
+          <li><a href="tel:0502138719">050-2138719</a></li>
+          <li><a href="tel:0542151581">054-2151581</a></li>
+          <li><a href="tel:0508214925">050-8214925</a></li>
+          <li><a href="tel:0546617771">054-6617771</a></li>
+        </ul>
+
+        <h2>ניווט</h2>
+        <p><a href="../zaza/">מעבר לעמוד ZAZA</a></p>
+      </section>
     </main>
 
     <script>
+      const syncExternalAccessibilityMode = () => {
+        const roots = [document.documentElement, document.body].filter(Boolean);
+        const source = roots.map((element) => {
+          const attributes = Array.from(element.attributes || [])
+            .filter((attribute) => !attribute.name.startsWith("data-a11y"))
+            .map((attribute) => `${attribute.name}=${attribute.value}`)
+            .join(" ");
+          return `${element.className || ""} ${attributes}`;
+        }).join(" ").toLowerCase();
+
+        const has = (pattern) => pattern.test(source);
+        const modes = {
+          a11yActive: has(/accessib|a11y|nagish|נגיש|userway|enable|toolbar/),
+          a11yLinks: has(/link|underline|highlight|קישור|קישורים/),
+          a11yContrast: has(/contrast|invert|high-contrast|dark-mode|ניגוד|ניגודיות/),
+          a11yMonochrome: has(/grayscale|grey|gray|monochrome|black-white|שחור|לבן/),
+          a11yReadable: has(/reader|readable|screen-reader|text|font|keyboard|מקרא|קורא|טקסט|מקלדת|גופן/),
+          a11yReducedMotion: has(/animation|motion|pause|stop|disable-animation|ללא|אנימציה/),
+        };
+
+        Object.entries(modes).forEach(([key, value]) => {
+          if (document.documentElement.dataset[key] !== String(value)) {
+            document.documentElement.dataset[key] = String(value);
+          }
+          if (document.body.dataset[key] !== String(value)) {
+            document.body.dataset[key] = String(value);
+          }
+        });
+
+        syncAccessibleContentTabStops();
+      };
+
+      const syncAccessibleContentTabStops = () => {
+        const isReadable = document.documentElement.dataset.a11yReadable === "true" || window.location.hash === "#accessible-content";
+        document.querySelectorAll(".accessible-content a").forEach((link) => {
+          link.tabIndex = isReadable ? 0 : -1;
+        });
+      };
+
+      syncExternalAccessibilityMode();
+      new MutationObserver(syncExternalAccessibilityMode).observe(document.documentElement, { attributes: true });
+      new MutationObserver(syncExternalAccessibilityMode).observe(document.body, { attributes: true });
+      window.addEventListener("hashchange", syncAccessibleContentTabStops);
+
       document.querySelectorAll(".button-hotspot").forEach((button) => {
         button.addEventListener("click", () => {
           const url = button.dataset.url;
