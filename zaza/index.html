@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZAZA</title>
+    <style>
+      :root {
+        --ink: #36222a;
+        --paper: #e6dec2;
+        --focus: #fdb913;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--paper);
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        direction: ltr;
+        background:
+          linear-gradient(90deg, rgba(54, 34, 42, 0.05) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(54, 34, 42, 0.04) 1px, transparent 1px),
+          var(--paper);
+        background-size: 32px 32px;
+        font-family: "Arial Hebrew", "Noto Sans Hebrew", Arial, sans-serif;
+        color: var(--ink);
+      }
+
+      .page-shell {
+        width: min(100%, 1920px);
+        margin-inline: auto;
+        overflow: hidden;
+        direction: ltr;
+        box-shadow: 0 0 0 1px rgba(54, 34, 42, 0.08);
+      }
+
+      .festival-stage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1920 / 6361;
+        background: var(--paper);
+        isolation: isolate;
+        direction: ltr;
+      }
+
+      .hero-video-layer {
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 16.114%;
+        z-index: 0;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 48% 48%, rgba(255, 255, 255, 0.25) 0 13%, transparent 13.2%),
+          linear-gradient(135deg, rgba(253, 185, 19, 0.16), transparent 38%),
+          var(--paper);
+      }
+
+      .hero-video-layer::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background:
+          repeating-linear-gradient(
+            90deg,
+            rgba(54, 34, 42, 0.035) 0 1px,
+            transparent 1px 56px
+          );
+        mix-blend-mode: multiply;
+        pointer-events: none;
+      }
+
+      .hero-video-tint {
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 16.114%;
+        z-index: 1;
+        display: none;
+        background: rgba(54, 34, 42, 0.22);
+        pointer-events: none;
+      }
+
+      .hero-video-layer video {
+        position: relative;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+
+      .artwork {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+        border: 0;
+      }
+
+      .artwork-mobile {
+        display: none;
+      }
+
+      .button-hotspot {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: transparent;
+        text-decoration: none;
+        cursor: pointer;
+        font: inherit;
+        appearance: none;
+        -webkit-tap-highlight-color: rgba(253, 185, 19, 0.25);
+      }
+
+      .button-hotspot:hover {
+        box-shadow: 0 0 0 max(2px, 0.12vw) rgba(253, 185, 19, 0.8);
+      }
+
+      .button-hotspot:focus-visible {
+        outline: max(3px, 0.16vw) solid var(--focus);
+        outline-offset: max(4px, 0.2vw);
+      }
+
+      .button-hotspot:active {
+        transform: translateY(1px);
+      }
+
+      .hero-cta {
+        left: 44.348958%;
+        top: 10.569753%;
+        width: 11.302083%;
+        height: 0.817482%;
+      }
+
+      .program-primary {
+        left: 29.166667%;
+        top: 36.286747%;
+        width: 9.21875%;
+        height: 0.817482%;
+      }
+
+      .program-secondary {
+        left: 39.84375%;
+        top: 36.286747%;
+        width: 7.34375%;
+        height: 0.817482%;
+      }
+
+      .card-action-1 {
+        left: 22.630208%;
+        top: 47.170256%;
+        width: 5.260417%;
+        height: 0.707436%;
+      }
+
+      .card-action-2 {
+        left: 22.630208%;
+        top: 54.590473%;
+        width: 5.260417%;
+        height: 0.707436%;
+      }
+
+      .card-action-3 {
+        left: 22.630208%;
+        top: 62.026411%;
+        width: 5.260417%;
+        height: 0.707436%;
+      }
+
+      .scroll-target {
+        position: absolute;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+
+      #creators {
+        top: 41.633%;
+      }
+
+      .sr-only {
+        position: absolute;
+        direction: rtl;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      @media (max-width: 720px) {
+        html {
+          background: #2271AE;
+        }
+
+        body {
+          background: #2271AE;
+          background-size: 22px 22px;
+        }
+
+        .page-shell {
+          box-shadow: none;
+        }
+
+        .festival-stage {
+          aspect-ratio: 429 / 3783;
+        }
+
+        .hero-video-layer {
+          height: 13.215966%;
+        }
+
+        .hero-video-tint {
+          display: block;
+          height: 13.215966%;
+        }
+
+        .hero-video-layer::after {
+          display: none;
+        }
+
+        .hero-video-layer video {
+          display: block;
+        }
+
+        .artwork-desktop {
+          display: none;
+        }
+
+        .artwork-mobile {
+          display: block;
+          left: -3px;
+          width: calc(100% + 6px);
+        }
+
+        .hero-cta {
+          left: 34.513054%;
+          top: 7.982025%;
+          width: 30.536131%;
+          height: 0.766587%;
+        }
+
+        .program-primary {
+          left: 45.337995%;
+          top: 42.214909%;
+          width: 21.652587%;
+          height: 0.684367%;
+        }
+
+        .program-secondary {
+          left: 68.441958%;
+          top: 42.214909%;
+          width: 17.223683%;
+          height: 0.684367%;
+        }
+
+        .card-action-1 {
+          left: 74.152914%;
+          top: 51.463917%;
+          width: 12.794779%;
+          height: 0.684367%;
+        }
+
+        .card-action-2 {
+          left: 74.152914%;
+          top: 61.996828%;
+          width: 12.794779%;
+          height: 0.684367%;
+        }
+
+        .card-action-3 {
+          left: 74.152914%;
+          top: 70.726408%;
+          width: 12.794779%;
+          height: 0.684367%;
+        }
+
+        #creators {
+          top: 45.662966%;
+        }
+
+        .button-hotspot:hover {
+          box-shadow: none;
+        }
+
+        .button-hotspot:focus-visible {
+          outline-width: 3px;
+          outline-offset: 3px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell" aria-label="ZAZA">
+      <section class="festival-stage" id="top">
+        <div class="hero-video-layer" aria-hidden="true">
+          <video muted autoplay loop playsinline preload="metadata">
+            <source src="../assets/meshotetim-jaffa-02-hq.mp4" type="video/mp4" media="(max-width: 720px)">
+          </video>
+        </div>
+        <span class="hero-video-tint" aria-hidden="true"></span>
+
+        <img
+          class="artwork artwork-desktop"
+          src="../assets/festival-2026-artwork.svg"
+          alt="Festival 2026"
+          draggable="false"
+        >
+        <img
+          class="artwork artwork-mobile"
+          src="../assets/festival-2026-mobile-artwork.svg?v=11"
+          alt="Festival 2026"
+          draggable="false"
+        >
+
+        <span class="scroll-target" id="creators" aria-hidden="true"></span>
+
+        <button class="button-hotspot hero-cta" type="button" data-action="creators" data-scroll-target="creators" aria-label="לגלות את היוצרים">
+          <span class="sr-only">לגלות את היוצרים</span>
+        </button>
+        <button class="button-hotspot program-primary" type="button" data-action="program" data-url="../festival/" aria-label="צפייה בתוכנית">
+          <span class="sr-only">צפייה בתוכנית</span>
+        </button>
+        <button class="button-hotspot program-secondary" type="button" data-action="details" data-url="../festival/" aria-label="פרטים נוספים">
+          <span class="sr-only">פרטים נוספים</span>
+        </button>
+        <button
+          class="button-hotspot card-action-1"
+          type="button"
+          data-action="card-1"
+          data-url="https://www.choreographers.org.il/performance/%d7%a7%d7%95%d7%9c%d7%95-%d7%a9%d7%9c-%d7%94%d7%a2%d7%95%d7%9c%d7%9d-%d7%a9%d7%a8%d7%a7-%d7%90%d7%a0%d7%99-%d7%a9%d7%95%d7%9e%d7%a2%d7%aa-2/?isApp=1"
+          aria-label="לרכישה - קולו של העולם שרק אני שומעת"
+        >
+          <span class="sr-only">לרכישה - קולו של העולם שרק אני שומעת</span>
+        </button>
+        <button
+          class="button-hotspot card-action-2"
+          type="button"
+          data-action="card-2"
+          data-url="https://www.choreographers.org.il/performance/you-are-now-one-of-us/?isApp=1"
+          aria-label="לרכישה - You are now One Of Us"
+        >
+          <span class="sr-only">לרכישה - You are now One Of Us</span>
+        </button>
+        <button
+          class="button-hotspot card-action-3"
+          type="button"
+          data-action="card-3"
+          data-url="https://www.choreographers.org.il/performance/%d7%a2%d7%a8%d7%95%d7%93/?isApp=1"
+          aria-label="לרכישה - ערוד"
+        >
+          <span class="sr-only">לרכישה - ערוד</span>
+        </button>
+      </section>
+    </main>
+    <script>
+      document.querySelectorAll(".button-hotspot").forEach((button) => {
+        button.addEventListener("click", () => {
+          const action = button.dataset.action;
+          const url = button.dataset.url;
+          const scrollTarget = button.dataset.scrollTarget;
+          window.dispatchEvent(new CustomEvent("festival:button", { detail: { action } }));
+          if (scrollTarget) {
+            document.getElementById(scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            window.history.replaceState(null, "", `#${scrollTarget}`);
+            return;
+          }
+          if (url) {
+            window.open(url, "_blank", "noopener,noreferrer");
+            return;
+          }
+          window.location.hash = action;
+        });
+      });
+    </script>
+  </body>
+</html>
